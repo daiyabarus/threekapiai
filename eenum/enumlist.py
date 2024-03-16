@@ -1,0 +1,73 @@
+def umtsindex_hourly():
+    return {
+        "DATE_ID": 0,
+        "HOUR_ID": 1,
+        "RNC": 2,
+        "RBS": 3,
+        "UtranCell": 4,
+        "3G_Cell_Availability": 5,
+        "3G_CS_Drop_Rate": 6,
+        "3G_Data_Volume_kb": 7,
+        "3G_Mobility_Success_Rate_Soft_HOSR": 8,
+        "3G_PS_Drop_Rate": 9,
+        "3G_RAN_CS_Accessibillity": 10,
+        "3G_RAN_PS_Accessibility": 11,
+        "3G_UL_RSSI": 12,
+        "3G_Voice_Erlang": 13,
+        "IRAT_HOSR_to_GSM": 14,
+        "3G_to_LTE_release_with_Redirect": 15,
+        "3G_RRC_success_rate": 16,
+        "3G_IEF_HOSR": 17,
+        "3G_RACH_success_rate": 18,
+        "3G_Downlink_Throughput_Kbps": 19,
+        "3G_Uplink_Throughput_Kbps": 20,
+        "3G_Soft_HO_attempts": 21,
+    }
+
+
+def umtsindex_daily():
+    return {
+        "DATE_ID": 0,
+        "RBS": 1,
+        "UtranCell": 2,
+        "RNC": 3,
+        "3G_Cell_Availability": 4,
+        "3G_CS_Drop_Rate": 5,
+        "3G_Data_Volume_kb": 6,
+        "3G_Mobility_Success_Rate_Soft_HOSR": 7,
+        "3G_PS_Drop_Rate": 8,
+        "3G_RAN_CS_Accessibility": 9,
+        "3G_RAN_PS_Accessibility": 10,
+        "3G_UL_RSSI": 11,
+        "3G_Voice_Erlang": 12,
+        "IRAT_HOSR_to_GSM": 13,
+        "3G_to_LTE_release_with_Redirect": 14,
+        "3G_RRC_success_rate": 15,
+        "3G_IEF_HOSR": 16,
+        "3G_RACH_success_rate": 17,
+        "3G_Downlink_Throughput_Kbps": 18,
+        "3G_Uplink_Throughput_Kbps": 19,
+        "3G_Soft_HO_attempts": 20,
+    }
+
+
+def baseline():
+    return [
+        ("3G_Cell_Availability", "99.9"),
+        ("3G_CS_Drop_Rate", "0.43"),
+        ("3G_Data_Volume_kb", "SUFFIX"),
+        ("3G_Soft_HO_attempts", "SUFFIX"),
+        ("3G_Mobility_Success_Rate_Soft_HOSR", "99.9"),
+        ("3G_PS_Drop_Rate", "0.25"),
+        ("3G_RAN_CS_Accessibility", "99.9"),
+        ("3G_RAN_PS_Accessibility", "99.7"),
+        ("3G_UL_RSSI", "-101"),
+        ("3G_Voice_Erlang", "SUFFIX"),
+        ("3G_IEF_HOSR", "SUFFIX"),
+        ("IRAT_HOSR_to_GSM", "SUFFIX"),
+        ("3G_Uplink_Throughput_Kbps", "SUFFIX"),
+        ("3G_Downlink_Throughput_Kbps", "SUFFIX"),
+        ("3G_to_LTE_release_with_Redirect", "SUFFIX"),
+        ("3G_RACH_success_rate", "99.7"),
+        ("Average_Reported_CQI", "7"),
+    ]
