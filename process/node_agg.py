@@ -36,7 +36,7 @@ class AGGNodePrePost:
         for raw_data in self.rawhourly_data[1:]:
             bsc, date_str, hour = [
                 raw_data[self.rawhourly_col[key]]
-                for key in ["BSC", "DATE_ID", "HOUR_ID"]
+                for key in ["RNC", "DATE_ID", "HOUR_ID"]
             ]
             date = self._parse_date(date_str)
             if not include_busy_hour or int(hour) in self.busyhour_data:
@@ -54,7 +54,7 @@ class AGGNodePrePost:
         avg_values = {}
         for raw_data in self.rawdaily_data[1:]:
             bsc, date_str = [
-                raw_data[self.rawdaily_col[key]] for key in ["BSC", "DATE_ID"]
+                raw_data[self.rawdaily_col[key]] for key in ["RNC", "DATE_ID"]
             ]
             date = self._parse_date(date_str)
 

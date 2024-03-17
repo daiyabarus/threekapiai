@@ -36,7 +36,7 @@ class SUMNodePrePost:
         for raw_data in self.rawhourly_data[1:]:
             bsc, date_str, hour = [
                 raw_data[self.rawhourly_col[key]]
-                for key in ["BSC", "DATE_ID", "HOUR_ID"]
+                for key in ["RNC", "DATE_ID", "HOUR_ID"]
             ]
             date = self._parse_date(date_str)
             if not include_busy_hour or int(hour) in self.busyhour_data:
@@ -53,7 +53,7 @@ class SUMNodePrePost:
         sum_values = {}
         for raw_data in self.rawdaily_data[1:]:
             bsc, date_str = [
-                raw_data[self.rawdaily_col[key]] for key in ["BSC", "DATE_ID"]
+                raw_data[self.rawdaily_col[key]] for key in ["RNC", "DATE_ID"]
             ]
             date = self._parse_date(date_str)
 
@@ -68,8 +68,8 @@ class SUMNodePrePost:
         pre_date = self._parse_date(self.date_data[0][0])
         post_date = self._parse_date(self.date_data[0][1])
         baseline_dict = dict(self.baseline_data)
-        inc_kpis = Flag.flag5_inc()
-        dcr_kpis = Flag.flag5_dcr()
+        # inc_kpis = Flag.flag5_inc()
+        # dcr_kpis = Flag.flag5_dcr()
         pre_values, post_values = self._extract_kpi_values(False)
         pre_sum_oneday = self._sum_kpi_values_for_dates(pre_values, pre_date, pre_date)
         post_sum_oneday = self._sum_kpi_values_for_dates(
@@ -91,8 +91,8 @@ class SUMNodePrePost:
         kpi_result = []
 
         for bsc in set(list(pre_sum_oneday.keys()) + list(post_sum_oneday.keys())):
-            pre_sum = sum(pre_values.get(bsc, []))
-            post_sum = sum(post_values.get(bsc, []))
+            # pre_sum = sum(pre_values.get(bsc, []))
+            # post_sum = sum(post_values.get(bsc, []))
 
             # if self.mockpi in inc_kpis:
             #     flag_type = "inc"
@@ -101,7 +101,7 @@ class SUMNodePrePost:
             # else:
             #     flag_type = "unknown"
 
-            prepost_calc = Diff(pre_sum, post_sum)
+            # prepost_calc = Diff(pre_sum, post_sum)
             # flag_result_prepost = (
             #     prepost_calc.flag5_inc if flag_type == "inc" else prepost_calc.flag5_dcr
             # )

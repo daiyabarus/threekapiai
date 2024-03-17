@@ -7,7 +7,7 @@ from utils.printtofile import PrintToFile
 from utils.toget import ToGet
 from datetime import datetime
 from eenum.enumflag import Flag
-from eenum.enumlist import gsmrawkpiIndex, gsmrawkpiindex_daily, baseline
+from eenum.enumlist import umtsindex_hourly, umtsindex_daily, baseline
 import shutil
 import time
 import os
@@ -66,9 +66,9 @@ class ProcessKPI:
                 aggprepost_compare = AGGPrePost(
                     cell_data=cell_data,
                     rawhourly_data=rawhourly_data,
-                    rawhourly_col=gsmrawkpiIndex(),
+                    rawhourly_col=umtsindex_hourly(),
                     rawdaily_data=rawdaily_data,
-                    rawdaily_col=gsmrawkpiindex_daily(),
+                    rawdaily_col=umtsindex_daily(),
                     date_data=date_data,
                     busyhour_data=bh_data,
                     baseline_data=baseline(),
@@ -82,9 +82,9 @@ class ProcessKPI:
                 sumprepost_compare = SUMPrePost(
                     cell_data=cell_data,
                     rawhourly_data=rawhourly_data,
-                    rawhourly_col=gsmrawkpiIndex(),
+                    rawhourly_col=umtsindex_hourly(),
                     rawdaily_data=rawdaily_data,
-                    rawdaily_col=gsmrawkpiindex_daily(),
+                    rawdaily_col=umtsindex_daily(),
                     date_data=date_data,
                     busyhour_data=bh_data,
                     baseline_data=baseline(),
@@ -139,9 +139,9 @@ class ProcessKPI:
             for mockpi in mockpi_agg_list:
                 aggprepost_node_compare = AGGNodePrePost(
                     rawhourly_data=rawhourly_data,
-                    rawhourly_col=gsmrawkpiIndex(),
+                    rawhourly_col=umtsindex_hourly(),
                     rawdaily_data=rawdaily_data,
-                    rawdaily_col=gsmrawkpiindex_daily(),
+                    rawdaily_col=umtsindex_daily(),
                     date_data=date_data,
                     busyhour_data=bh_data,
                     baseline_data=baseline(),
@@ -154,9 +154,9 @@ class ProcessKPI:
             for mockpi in mockpi_sum_list:
                 sumprepost_node_compare = SUMNodePrePost(
                     rawhourly_data=rawhourly_data,
-                    rawhourly_col=gsmrawkpiIndex(),
+                    rawhourly_col=umtsindex_hourly(),
                     rawdaily_data=rawdaily_data,
-                    rawdaily_col=gsmrawkpiindex_daily(),
+                    rawdaily_col=umtsindex_daily(),
                     date_data=date_data,
                     busyhour_data=bh_data,
                     baseline_data=baseline(),

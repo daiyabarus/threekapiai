@@ -27,12 +27,18 @@ class SUMPrePost:
         self.mockpi = mockpi
 
     def _parse_date(self, date_str):
-        return datetime.strptime(date_str, "%m/%d/%Y").date()
+        return datetime.strptime(date_str, "%d/%m/%Y").date()
 
-    def _get_bsc(self, cell_name):
+    def _get_rnc(self, cell_name):
         for raw_data in self.rawdaily_data[1:]:
-            if raw_data[self.rawdaily_col.get("CELL_NAME", 1)] == cell_name:
-                return raw_data[self.rawdaily_col.get("BSC", 2)]
+            if raw_data[self.rawdaily_col.get("UtranCell", 4)] == cell_name:
+                return raw_data[self.rawdaily_col.get("RNC", 2)]
+        return "UNDEFINED"
+
+    def _get_rbs(self, cell_name):
+        for raw_data in self.rawdaily_data[1:]:
+            if raw_data[self.rawdaily_col.get("UtranCell", 4)] == cell_name:
+                return raw_data[self.rawdaily_col.get("RBS", 3)]
         return "UNDEFINED"
 
     def _extract_kpi_values(self, include_busy_hour=True):
@@ -46,7 +52,7 @@ class SUMPrePost:
             cell, date_str, hour = [
                 raw_data[self.rawhourly_col.get(key, idx)]
                 for key, idx in [
-                    ("CELL_NAME", 2),
+                    ("UtranCell", 4),
                     ("DATE_ID", 0),
                     ("HOUR_ID", 1),
                 ]
@@ -70,7 +76,7 @@ class SUMPrePost:
         for raw_data in self.rawdaily_data[1:]:
             cell, date_str, _ = [
                 raw_data[self.rawdaily_col.get(key, idx)]
-                for key, idx in [("CELL_NAME", 1), ("DATE_ID", 0), ("BSC", 2)]
+                for key, idx in [("UtranCell", 2), ("DATE_ID", 0), ("RNC", 3)]
             ]
             date = self._parse_date(date_str)
 
@@ -116,7 +122,8 @@ class SUMPrePost:
             post_sum = sum(post_values[cell]) if post_values[cell] else 0
 
             prepost_calc = Diff(pre_sum, post_sum)
-            bsc = self._get_bsc(cell)
+            bsc = self._get_rnc(cell)
+            rbs = self._get_rbs(cell)
 
             one_day_calc = Diff(pre_sum_oneday[cell], post_sum_oneday[cell])
             twodays_calc = Diff(pre_sum_twodays[cell], post_sum_twodays[cell])
@@ -135,6 +142,7 @@ class SUMPrePost:
 
             kpi_data = [
                 bsc,
+                rbs,
                 cell,
                 self.mockpi,
                 pre_sum,
