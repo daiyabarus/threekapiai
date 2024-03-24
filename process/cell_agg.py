@@ -27,7 +27,7 @@ class AGGPrePost:
         self.mockpi = mockpi
 
     def _parse_date(self, date_str):
-        return datetime.strptime(date_str, "%d/%m/%Y").date()
+        return datetime.strptime(date_str, "%m/%d/%Y").date()
 
     def _get_rnc(self, cell_name):
         for raw_data in self.rawdaily_data[1:]:
@@ -141,7 +141,7 @@ class AGGPrePost:
             else:
                 flag_type = "unknown"
 
-            bsc = self._get_rnc(cell)
+            rnc = self._get_rnc(cell)
             rbs = self._get_rbs(cell)
             prepost_calc = Diff(pre_avg, post_avg)
 
@@ -171,21 +171,24 @@ class AGGPrePost:
                 pre_baseline = pre_avg_oneweek[cell]
                 baseline_calc = Diff(pre_baseline, post_baseline)
                 baseline_flag = baseline_calc.threshold_flag_dec
+                baseline_delta = baseline_calc.delta_percent
 
             elif self.mockpi in dcr_kpis:
                 pre_baseline = post_avg_oneweek[cell]
                 post_baseline = float(baseline_dict.get(self.mockpi, 0))
                 baseline_calc = Diff(pre_baseline, post_baseline)
                 baseline_flag = baseline_calc.threshold_flag_dec
+                baseline_delta = baseline_calc.delta_percent
 
             else:
                 pre_baseline = post_avg_oneweek[cell]
                 post_baseline = float(baseline_dict.get(self.mockpi, 0))
                 baseline_calc = Diff(pre_baseline, post_baseline)
                 baseline_flag = baseline_calc.threshold_flag_inc
+                baseline_delta = baseline_calc.delta_percent
 
             kpi_data = [
-                bsc,
+                rnc,
                 rbs,
                 cell,
                 self.mockpi,
@@ -193,6 +196,7 @@ class AGGPrePost:
                 post_avg,
                 prepost_calc.delta,
                 prepost_calc.delta_percent,
+                # prepost_calc.delta_percent,
                 flag_result_prepost,
                 pre_avg_oneday[cell],
                 post_avg_oneday[cell],
@@ -211,6 +215,7 @@ class AGGPrePost:
                 flag_result_one_week,
                 pre_baseline,
                 post_baseline,
+                baseline_delta,
                 baseline_flag,
             ]
             kpi_result.append(kpi_data)

@@ -409,3 +409,66 @@ class PrintToFile:
         except Exception as e:
             print(f"An error occurred: {e}")
             return False
+
+    @staticmethod
+    def to_xlsx_offside_noheader_restructur(
+        file_to_save: str,
+        ws_name: str,
+        list_of_contents: list,
+        list_of_red: list = [],
+        list_of_green: list = [],
+        list_of_yellow: list = [],
+        col_offside: int = 0,
+        starting_row: int = 1,
+    ):
+        try:
+            # Check if workbook exists
+            if os.path.exists(file_to_save):
+                wb = load_workbook(file_to_save)
+            else:
+                wb = Workbook()
+                wb.remove(wb["Sheet"])
+
+            # Create sheet
+            if ws_name in wb.sheetnames:
+                ws_target = wb[ws_name]
+            else:
+                ws_target = wb.create_sheet(ws_name)
+
+            # Define cell formatting
+            # Write data to Excel file
+            for items in list_of_contents:
+                for col, item in enumerate(items):
+                    cell = ws_target.cell(
+                        row=starting_row, column=col + 1 + col_offside
+                    )
+                    cell.value = item
+
+                    # Apply formatting based on category
+                    if item in list_of_red:
+                        cell.fill = redFill
+                        cell.font = darkRedText
+
+                    elif item in list_of_green:
+                        cell.fill = greenFill
+                        cell.font = darkGreenText
+
+                    elif item in list_of_yellow:
+                        cell.fill = yellowFill
+                        cell.font = darkYellowText
+
+                    else:
+                        # Default cell formatting
+                        cell.font = Font(name="Calibri", size=10)
+
+                    cell.border = thin_border
+                    cell.alignment = Alignment(horizontal="center", vertical="center")
+
+                starting_row += 1
+
+            wb.save(file_to_save)
+
+            return True
+        except Exception as e:
+            print(f"An error occurred: {e}")
+            return False

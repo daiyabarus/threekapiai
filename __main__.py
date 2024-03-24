@@ -4,6 +4,7 @@ from process.node_agg import AGGNodePrePost
 from process.node_sum import SUMNodePrePost
 from eenum.sheet import ResultSheetNaming
 from utils.printtofile import PrintToFile
+from process.cell_summary import KPIResultCounter
 from utils.toget import ToGet
 from datetime import datetime
 from eenum.enumflag import Flag
@@ -35,6 +36,38 @@ class ProcessKPI:
         except Exception:
             errors = traceback.format_exc()
             print(errors)
+
+    def _summary_kpi(
+        self,
+        mockpi_agg_list,
+        mockpi_sum_list,
+        cell_data,
+        kpi_process_result,
+        rawdaily_data,
+    ):
+        """
+        Summarize KPI results.
+        """
+        summary_kpi = []
+
+        for mockpi in mockpi_agg_list + mockpi_sum_list:
+            if mockpi in mockpi_agg_list:
+                summary_process = KPIResultCounter
+            else:
+                summary_process = KPIResultCounter
+
+            summary_instance = summary_process(
+                cell_data=cell_data,
+                mockpi=mockpi,
+                kpi_process_result=kpi_process_result,
+                rawdaily_data=rawdaily_data,
+                rawdaily_col=umtsindex_daily(),
+            )
+
+            summary_result = summary_instance.count_summary()
+            summary_kpi.extend(summary_result)
+
+        return summary_kpi
 
     def _cellbase(self):
         try:
@@ -93,19 +126,38 @@ class ProcessKPI:
 
                 kpi_result = sumprepost_compare.process_kpi()
                 kpi_process_result.extend(kpi_result)
+                # print(kpi_process_result)
+            summary_kpi = self._summary_kpi(
+                mockpi_agg_list,
+                mockpi_sum_list,
+                cell_data,
+                kpi_process_result,
+                rawdaily_data,
+            )
+            # print(summary_kpi)
+            is_ok_processor = PrintToFile.to_xlsx_offside_noheader_restructur(
+                file_to_save=self.final_path,
+                ws_name=self.sheet_naming.summary,
+                list_of_contents=summary_kpi,
+                list_of_red=[],
+                list_of_yellow=[],
+                list_of_green=[],
+                col_offside=0,
+                starting_row=3,
+            )
 
             is_ok_cellbase = PrintToFile.to_xlsx_offside_noheader_color(
                 file_to_save=self.final_path,
                 ws_name=self.sheet_naming.cell,
                 list_of_contents=kpi_process_result,
-                list_of_red=["Fail", "Degrade"],
+                list_of_red=["Fail", "Degrade", "UNDEFINED"],
                 list_of_yellow=["Maintain"],
                 list_of_green=["Improve", "Pass"],
                 col_offside=0,
                 starting_row=5,
             )
 
-            return is_ok_cellbase
+            return is_ok_cellbase, is_ok_processor
 
         except Exception:
             errors = traceback.format_exc()
@@ -165,12 +217,12 @@ class ProcessKPI:
 
                 kpi_result = sumprepost_node_compare.process_kpi()
                 kpi_node_result.extend(kpi_result)
-
+                # print(kpi_node_result)
             is_ok_nodebase = PrintToFile.to_xlsx_offside_noheader_color(
                 file_to_save=self.final_path,
                 ws_name=self.sheet_naming.node,
                 list_of_contents=kpi_node_result,
-                list_of_red=["Fail", "Degrade"],
+                list_of_red=["Fail", "Degrade", "UNDEFINED"],
                 list_of_yellow=["Maintain"],
                 list_of_green=["Improve", "Pass"],
                 col_offside=0,
@@ -239,3 +291,4 @@ class ProcessKPI:
 if __name__ == "__main__":
     process_kpi = ProcessKPI()
     process_kpi.process_data()
+

@@ -8,6 +8,7 @@ class Flag:
             "3G_RAN_PS_Accessibility",
             "3G_RACH_success_rate",
             "Average_Reported_CQI",
+            "3G_IEF_HOSR",
         ]
 
     @staticmethod
@@ -32,6 +33,7 @@ class Flag:
             "3G_RACH_success_rate",
             "3G_Downlink_Throughput_Kbps",
             "3G_Uplink_Throughput_Kbps",
+            "3G_IEF_HOSR",
         ]
 
     @staticmethod

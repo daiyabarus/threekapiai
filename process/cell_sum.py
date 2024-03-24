@@ -27,7 +27,7 @@ class SUMPrePost:
         self.mockpi = mockpi
 
     def _parse_date(self, date_str):
-        return datetime.strptime(date_str, "%d/%m/%Y").date()
+        return datetime.strptime(date_str, "%m/%d/%Y").date()
 
     def _get_rnc(self, cell_name):
         for raw_data in self.rawdaily_data[1:]:
@@ -134,11 +134,13 @@ class SUMPrePost:
                 pre_baseline = pre_sum_oneweek[cell]
                 baseline_calc = Diff(pre_baseline, post_baseline)
                 baseline_flag = baseline_calc.threshold_flag_dec
+                baseline_delta = baseline_calc.delta_percent
             else:
                 pre_baseline = post_sum_oneweek[cell]
                 post_baseline = float(baseline_dict.get(self.mockpi, 0))
                 baseline_calc = Diff(pre_baseline, post_baseline)
                 baseline_flag = baseline_calc.threshold_flag_inc
+                baseline_delta = baseline_calc.delta_percent
 
             kpi_data = [
                 bsc,
@@ -167,6 +169,7 @@ class SUMPrePost:
                 oneweek_calc.flag5_inc,
                 pre_baseline,
                 post_baseline,
+                baseline_delta,
                 baseline_flag,
             ]
             kpi_result.append(kpi_data)
