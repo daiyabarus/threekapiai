@@ -111,6 +111,12 @@ class KPIResultCounter:
                     degraded_above_30_percentage + degraded_20_to_30_percentage
                 ):
                     remark = "Maintain With Slight Degrade"
+                elif (
+                    degraded_10_to_20_percentage == 0
+                    and degraded_above_30_percentage == 0
+                    and degraded_20_to_30_percentage == 0
+                ):
+                    remark = "Maintain"
 
             elif cells_improve_percent > cells_degrade_percent:
                 if degraded_above_30_percentage > (
@@ -125,13 +131,19 @@ class KPIResultCounter:
                     degraded_above_30_percentage + degraded_20_to_30_percentage
                 ):
                     remark = "Improve with Slight Degrade"
+                elif (
+                    degraded_10_to_20_percentage == 0
+                    and degraded_above_30_percentage == 0
+                    and degraded_20_to_30_percentage == 0
+                ):
+                    remark = "Improve"
 
             result_summary.append(
                 [
                     rnc,
                     self.mockpi,
-                    rnc_cell_count,  # Replace cells_in_rnc with rnc_cell_count
                     total_cells,
+                    rnc_cell_count,  # Replace cells_in_rnc with rnc_cell_count
                     "{:.2f}%".format(cells_improve_percent),
                     "{:.2f}%".format(rnc_improve_percent),
                     improved_count,
@@ -155,4 +167,3 @@ class KPIResultCounter:
             )
 
         return result_summary
-

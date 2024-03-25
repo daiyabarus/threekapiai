@@ -135,7 +135,7 @@ class ProcessKPI:
                 rawdaily_data,
             )
             # print(summary_kpi)
-            is_ok_processor = PrintToFile.to_xlsx_offside_noheader_restructur(
+            is_ok_processor = PrintToFile.to_xlsx_offside_noheader_color(
                 file_to_save=self.final_path,
                 ws_name=self.sheet_naming.summary,
                 list_of_contents=summary_kpi,
@@ -291,4 +291,3 @@ class ProcessKPI:
 if __name__ == "__main__":
     process_kpi = ProcessKPI()
     process_kpi.process_data()
-
